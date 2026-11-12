@@ -9,7 +9,7 @@ pygame.init()
 window = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Sliding Through the Hood")
 clock = pygame.time.Clock()
-jump_duration = 200  # Duration of the jump in milliseconds
+jump_duration = 270  # Duration of the jump in milliseconds
 jump_happened = False  # Flag to track if the jump has occurred
 jump_start_time = 0  # Variable to store the start time of the jump
 def draw_sky():
@@ -32,19 +32,21 @@ while running:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False 
-            if event.key == pygame.K_UP:
-                player.y -= 10  # Move the player up
-            elif event.key == pygame.K_DOWN:
-                player.y += 10  # Move the player down
-            elif event.key == pygame.K_RIGHT: 
-                player.x += 10  # Move the player right
-            elif event.key == pygame.K_LEFT:
-                player.x -= 10  # Move the player left
+         
             elif event.key == pygame.K_SPACE and not jump_happened:  # Check if the space key is pressed and jump hasn't happened yet
                 jump_happened = True
                 jump_start_time = pygame.time.get_ticks()
+
                 player.y = max(player.y - 50, 0)
-                
+    keys=pygame.key.get_pressed()
+    if keys[pygame.K_UP]:
+        player.y-=5
+    if keys[pygame.K_DOWN]:
+        player.y+=5
+    if keys[pygame.K_LEFT]:
+        player.x-=5    
+    if keys[pygame.K_RIGHT]:
+        player.x+=5         
     if jump_happened and pygame.time.get_ticks() - jump_start_time >= jump_duration:
         player.y += 50
         jump_happened = False
